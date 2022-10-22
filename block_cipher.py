@@ -1,7 +1,8 @@
 import sys
 import os
 from cryptography.hazmat.primitives import padding
-# import cryptography
+from cryptography.hazmat.primitives.ciphers import Cipher, algorithms, modes, AES
+from numpy import byte
 
 def encrypt_ecb():
     pass
@@ -16,15 +17,14 @@ iv = os.urandom(16)
 # Read the content of the plaintext file
 plaintext_file_name = sys.argv[1]
 plaintext_file = open(plaintext_file_name, mode='rb')
-lines = bytearray()
-padded_lined = bytearray()
+plaintext_data = bytearray()
 for line in plaintext_file:
-    lines += line
+    plaintext_data += line
 
 # Display plaintext and number of blocks
 # print(lines)
-bit_length = lines[0].bit_length()
-total_bit_length = len(lines)*8
+bit_length = plaintext_data[0].bit_length()
+total_bit_length = len(plaintext_data)*8
 num_blocks = total_bit_length/128
 
 print("\nBit length:", str(bit_length))
@@ -36,7 +36,7 @@ plaintext_file.close()
 # Pad plaintext if necessary
 if(total_bit_length%128 != 0):
     padder = padding.PKCS7(128).padder()
-    padded_lines = padder.update(lines) + padder.finalize()
+    padded_lines = padder.update(plaintext_data) + padder.finalize()
 
     # Print unpadded and padded versions
     new_total_bit_length = len(padded_lines)*8
@@ -47,11 +47,32 @@ if(total_bit_length%128 != 0):
 
     # Update the lines variable
     lines = padded_lines
+    total_bit_length = new_total_bit_length
+    num_blocks = new_num_blocks
 
 else:
     print("Sufficient bits originally available")
 
 
+# Create array to contain cipher text in binary
+ciphertext_data = bytearray()
+
+# Encrypt the file
+for i in range(0, int(num_blocks)):
+    first_byte_index = i*16
+    last_byte_index = i*16 + 16
+    
+    current_block = lines[first_byte_index:last_byte_index]
+    AES_algorithm = algorithms.AES128(key)
+    # cipher = Cipher(AES_algorithm, mode=modes.CBC)
+    # encryptor = cipher.encryptor()
+    # cipher_text = encryptor.update(current_block)
+    ciphertext = bytearray()
+    ciphertext_data += ciphertext
+
+for i in ciphertext_data:
+    print("Encrypted block: \n", i)
+    
 
 # Create output file
 # ciphertext_file = open('new-file', 'xb')
