@@ -3,7 +3,6 @@ import sys, os
 import urllib.parse as url_encode
 from cryptography.hazmat.primitives import padding
 from cryptography.hazmat.primitives.ciphers import Cipher, algorithms, modes
-from numpy import byte, full, true_divide
 
  # Create key and initialisation vector of size 128 bits
 key = os.urandom(16)
@@ -16,7 +15,6 @@ encryptor = cipher.encryptor()
 decryptor = cipher.decryptor()
 
 def encrypt_ecb():
-    key = os.urandom(16)
     plaintext_file_name = sys.argv[1]
     plaintext_file = open(plaintext_file_name, mode='rb')
     plaintext_data = bytearray()
@@ -131,6 +129,8 @@ def encrypt_cbc():
         
         current_block = lines[first_byte_index:last_byte_index]
         AES_algorithm = algorithms.AES128(key)
+        if i > 0:
+            iv = cipher_text
         cipher = Cipher(AES_algorithm, mode=modes.CBC(iv))
         encryptor = cipher.encryptor()
         cipher_text = encryptor.update(current_block)
@@ -206,10 +206,6 @@ def verify(cipher_text):
         return True
     else:
         return False
-    # if ";admin=true;" in plain_text:
-    #     return True
-    # else:
-    #     return False
      
 ct = submit()
 result = verify(ct)
