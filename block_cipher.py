@@ -4,7 +4,7 @@ import urllib.parse as url_encode
 from cryptography.hazmat.primitives import padding
 from cryptography.hazmat.primitives.ciphers import Cipher, algorithms, modes
 
- # Create key and initialisation vector of size 128 bits
+# Create key and initialisation vector of size 128 bits
 key = os.urandom(16)
 iv = os.urandom(16)
 
@@ -67,7 +67,6 @@ def encrypt_ecb():
         cipher = Cipher(AES_algorithm, mode=modes.ECB())
         encryptor = cipher.encryptor()
         cipher_text = encryptor.update(current_block)
-        # print(cipher_text)
         ciphertext_data += cipher_text
     
     ciphertext_file = open('ecb_encrypted', 'xb')
@@ -134,10 +133,10 @@ def encrypt_cbc():
         cipher = Cipher(AES_algorithm, mode=modes.CBC(iv))
         encryptor = cipher.encryptor()
         cipher_text = encryptor.update(current_block)
-        # print(cipher_text)
         ciphertext_data += cipher_text
 
     # Create output file
+    ciphertext_data = ciphertext_data.decode("utf-8")
     ciphertext_file = open('cbc_encrypted', 'xb')
     ciphertext_file.write(ciphertext_data)
     ciphertext_file.close()
@@ -174,7 +173,7 @@ def submit():
     # Adding the appropriate prepend and appent to the encoded userInput
     prepend = "userid=456;userdata="
     append = ";session-id=31337" 
-    full_text = prepend + encodedUserInput  + append;
+    full_text = prepend + encodedUserInput  + append
 
     # Printing the output of the full_text
     print("Full configured text: ", full_text, "\n") 
