@@ -1,0 +1,19 @@
+Opening and reading from files in Python: https://www.freecodecamp.org/news/how-to-read-files-in-python/
+
+Reading from commandline: https://www.geeksforgeeks.org/command-line-arguments-in-python/
+
+Random method: https://docs.python.org/3/library/os.html#os.urandom
+
+Padding: https://cryptography.io/en/latest/hazmat/primitives/padding/
+
+Initialising a byte variable: https://stackoverflow.com/questions/16678363/how-do-i-declare-an-empty-bytes-variable
+
+Bit length: https://www.geeksforgeeks.org/python-bit-functions-on-int-bit_length-to_bytes-and-from_bytes/
+
+URL Encoding:convertio.co/jfif-jpg/
+
+Convert string to bytes:
+https://stackoverflow.com/questions/7585435/best-way-to-convert-string-to-bytes-in-python-3
+
+Split string into characters:
+https://www.geeksforgeeks.org/python-split-string-into-list-of-characters/
