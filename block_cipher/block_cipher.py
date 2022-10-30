@@ -3,9 +3,8 @@ import sys, os
 import urllib.parse as url_encode
 from cryptography.hazmat.primitives import padding
 from cryptography.hazmat.primitives.ciphers import Cipher, algorithms, modes
-from numpy import byte, full, true_divide
 
- # Create key and initialisation vector of size 128 bits
+# Create key and initialisation vector of size 128 bits
 key = os.urandom(16)
 iv = os.urandom(16)
 
@@ -16,7 +15,6 @@ encryptor = cipher.encryptor()
 decryptor = cipher.decryptor()
 
 def encrypt_ecb():
-    key = os.urandom(16)
     plaintext_file_name = sys.argv[1]
     plaintext_file = open(plaintext_file_name, mode='rb')
     plaintext_data = bytearray()
@@ -69,7 +67,6 @@ def encrypt_ecb():
         cipher = Cipher(AES_algorithm, mode=modes.ECB())
         encryptor = cipher.encryptor()
         cipher_text = encryptor.update(current_block)
-        # print(cipher_text)
         ciphertext_data += cipher_text
     
     ciphertext_file = open('ecb_encrypted', 'xb')
@@ -131,13 +128,15 @@ def encrypt_cbc():
         
         current_block = lines[first_byte_index:last_byte_index]
         AES_algorithm = algorithms.AES128(key)
+        if i > 0:
+            iv = cipher_text
         cipher = Cipher(AES_algorithm, mode=modes.CBC(iv))
         encryptor = cipher.encryptor()
         cipher_text = encryptor.update(current_block)
-        # print(cipher_text)
         ciphertext_data += cipher_text
 
     # Create output file
+    ciphertext_data = ciphertext_data.decode("utf-8")
     ciphertext_file = open('cbc_encrypted', 'xb')
     ciphertext_file.write(ciphertext_data)
     ciphertext_file.close()
@@ -174,7 +173,7 @@ def submit():
     # Adding the appropriate prepend and appent to the encoded userInput
     prepend = "userid=456;userdata="
     append = ";session-id=31337" 
-    full_text = prepend + encodedUserInput  + append;
+    full_text = prepend + encodedUserInput  + append
 
     # Printing the output of the full_text
     print("Full configured text: ", full_text, "\n") 
@@ -206,10 +205,6 @@ def verify(cipher_text):
         return True
     else:
         return False
-    # if ";admin=true;" in plain_text:
-    #     return True
-    # else:
-    #     return False
      
 ct = submit()
 result = verify(ct)
